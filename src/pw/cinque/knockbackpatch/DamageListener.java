@@ -68,10 +68,12 @@ public class DamageListener implements Listener {
 		double verMultiplier = KnockbackPatch.getInstance().getVerMultiplier();
 		double sprintMultiplier = damager.isSprinting() ? 0.8D : 0.4D;
 		double kbMultiplier = damager.getItemInHand() == null ? 0 : damager.getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK) * 0.2D;
+		@SuppressWarnings("deprecation")
+		double airMultiplier = damager.isOnGround() ? 1 : 0.5;
 
 		Vector knockback = damager.getLocation().getDirection().normalize();
 		knockback.setX((knockback.getX() * sprintMultiplier + kbMultiplier) * horMultiplier);
-		knockback.setY(0.35D * verMultiplier);
+		knockback.setY(0.35D * airMultiplier * verMultiplier);
 		knockback.setZ((knockback.getZ() * sprintMultiplier + kbMultiplier) * horMultiplier);
 		
 		try {
