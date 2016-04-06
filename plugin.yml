@@ -1,0 +1,8 @@
+name: KnockbackPatch
+version: 1.0
+author: Fyu
+main: pw.cinque.knockbackpatch.KnockbackPatch
+commands:
+  setknockback:
+    description: Change the amount of knockback players take
+    aliases: [setkb]
