@@ -75,7 +75,7 @@ public class DamageListener implements Listener {
 		@SuppressWarnings("deprecation")
 		double airMultiplier = damaged.isOnGround() ? 1 : 0.5;
 
-		Vector knockback = damager.getLocation().getDirection().normalize();
+		Vector knockback = damaged.getLocation().toVector().subtract(damager.getLocation().toVector()).normalize();
 		knockback.setX((knockback.getX() * sprintMultiplier + kbMultiplier) * horMultiplier);
 		knockback.setY(0.35D * airMultiplier * verMultiplier);
 		knockback.setZ((knockback.getZ() * sprintMultiplier + kbMultiplier) * horMultiplier);
