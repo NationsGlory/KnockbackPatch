@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -13,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class DamageListener implements Listener {
@@ -20,6 +23,7 @@ public class DamageListener implements Listener {
 	private Field fieldPlayerConnection;
 	private Method sendPacket;
 	private Constructor<?> packetVelocity;
+	private static final List<Integer> BLACKLISTED_IDS = Arrays.asList(11834, 11835, 11836, 11837, 11838);
 
 	public DamageListener() {
 		try {
@@ -60,6 +64,11 @@ public class DamageListener implements Listener {
 		if (event.isCancelled()) {
 			return;
 		}
+
+		ItemStack itemStack = ((Player) event.getDamager()).getItemInHand();
+
+		if(itemStack != null && BLACKLISTED_IDS.contains(itemStack.getTypeId()))
+			return;
 
 		Player damaged = (Player) event.getEntity();
 		Player damager = (Player) event.getDamager();
