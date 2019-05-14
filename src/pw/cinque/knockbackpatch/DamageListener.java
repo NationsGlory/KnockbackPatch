@@ -22,14 +22,14 @@ public class DamageListener implements Listener {
 	private Constructor<?> packetVelocity;
 
 	public DamageListener() {
-		try {			
-			Class<?> entityPlayerClass = Class.forName("net.minecraft.server." + KnockbackPatch.getInstance().getCraftBukkitVersion() + ".EntityPlayer");
-			Class<?> packetVelocityClass = Class.forName("net.minecraft.server." + KnockbackPatch.getInstance().getCraftBukkitVersion() + ".PacketPlayOutEntityVelocity");
-			Class<?> playerConnectionClass = Class.forName("net.minecraft.server." + KnockbackPatch.getInstance().getCraftBukkitVersion() + ".PlayerConnection");
+		try {
+			Class<?> entityPlayerClass = Class.forName("net.minecraft.entity.player.EntityPlayerMP");
+			Class<?> packetVelocityClass = Class.forName("net.minecraft.network.packet.Packet28EntityVelocity");
+			Class<?> playerConnectionClass = Class.forName("net.minecraft.network.NetServerHandler");
 
 			// Get the fields here to improve performance later on			
-			this.fieldPlayerConnection = entityPlayerClass.getField("playerConnection");
-			this.sendPacket = playerConnectionClass.getMethod("sendPacket", packetVelocityClass.getSuperclass());
+			this.fieldPlayerConnection = entityPlayerClass.getField("field_71135_a");
+			this.sendPacket = playerConnectionClass.getMethod("func_72567_b", packetVelocityClass.getSuperclass());
 			this.packetVelocity = packetVelocityClass.getConstructor(int.class, double.class, double.class, double.class);
 		} catch (ClassNotFoundException | NoSuchFieldException | SecurityException | NoSuchMethodException e) {
 			e.printStackTrace();
